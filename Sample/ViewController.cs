@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 using UIKit;
 
 namespace Sample
@@ -15,6 +15,8 @@ namespace Sample
 		{
 			base.ViewDidLoad();
 			// Perform any additional setup after loading the view, typically from a nib.
+
+			AutoCompleteTextField.Setup(new List<string>() { "nederland", "engeland", "duitsland", "frankrijk", "denemarken", "polen" } );
 		}
 
 		public override void DidReceiveMemoryWarning()
