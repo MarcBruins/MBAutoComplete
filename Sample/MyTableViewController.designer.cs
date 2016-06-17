@@ -12,9 +12,15 @@ namespace Sample
 	[Register ("MyTableViewController")]
 	partial class MyTableViewController
 	{
+		[Outlet]
+		MBAutoComplete.MBAutoCompleteTextField AutoCompleteTextField { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (AutoCompleteTextField != null) {
+				AutoCompleteTextField.Dispose ();
+				AutoCompleteTextField = null;
+			}
 		}
 	}
 }

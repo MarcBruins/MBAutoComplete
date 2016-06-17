@@ -10,7 +10,7 @@ using UIKit;
 
 namespace MBAutoComplete
 {
-	[Register("MBAutoComplete")]
+	[Register("MBAutoCompleteTextField")]
 	public class MBAutoCompleteTextField : UITextField, IUITextFieldDelegate
 	{
 		public ISortingAlghorithm SortingAlghorithm
@@ -37,19 +37,24 @@ namespace MBAutoComplete
 			set;
 		}
 
+
+		private UIViewController ViewToAddTo;
+
 		public MBAutoCompleteTextField(IntPtr ptr) : base(ptr)
 		{
 			
 		}
 
-		public void Setup(List<string> suggestions)
+		public void Setup(UIViewController view, List<string> suggestions)
 		{
+			ViewToAddTo = view;
 			DateFetcher  = new DefaultDataFetcher(suggestions);
 			initialize();
 		}
 
-		public void Setup(IDataFetcher fetcher)
+		public void Setup(UIViewController view, IDataFetcher fetcher)
 		{
+			ViewToAddTo = view;
 			DateFetcher = fetcher;
 			initialize();
 		}
@@ -74,7 +79,7 @@ namespace MBAutoComplete
 			this.ClearButtonMode = UITextFieldViewMode.WhileEditing;
 
 			//Insert into below the textfield so that the textfield overlaps the tableview
-			Superview.InsertSubviewBelow(AutoCompleteTableView, this);
+			Superview.InsertSubviewBelow(AutoCompleteTableView, ViewToAddTo.View);
 
 			//add constraints
 			Superview.AddConstraints(
