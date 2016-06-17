@@ -78,8 +78,17 @@ namespace MBAutoComplete
 			this.AutocorrectionType = UITextAutocorrectionType.No;
 			this.ClearButtonMode = UITextFieldViewMode.WhileEditing;
 
-			//Insert into below the textfield so that the textfield overlaps the tableview
-			Superview.InsertSubviewBelow(AutoCompleteTableView, ViewToAddTo.View);
+			Superview.InsertSubviewAbove(AutoCompleteTableView, ViewToAddTo.View);
+
+			// Check if the superview is a uitableviewcell
+			Type type = Superview.Superview.GetType();
+
+			// Disable clip to bounds to present the suggestions tableview properly
+			if (type.ToString() == "UIKit.UITableViewCell")
+			{
+				UITableViewCell cell = (UIKit.UITableViewCell)Superview.Superview;
+				cell.ClipsToBounds = false;
+			}
 
 			//add constraints
 			Superview.AddConstraints(
