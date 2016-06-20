@@ -37,6 +37,8 @@ namespace MBAutoComplete
 			set;
 		}
 
+
+		public CGRect originalFrame { get; private set; }
 		private UIViewController ViewToAddTo;
 
 		public MBAutoCompleteTextField(IntPtr ptr) : base(ptr)
@@ -77,8 +79,6 @@ namespace MBAutoComplete
 			this.AutocorrectionType = UITextAutocorrectionType.No;
 			this.ClearButtonMode = UITextFieldViewMode.WhileEditing;
 
-			Superview.InsertSubviewAbove(AutoCompleteTableView, ViewToAddTo.View);
-		
 			// Check if the superview is a uitableviewcell, by doing this we know that the parent is a uitableviewcontroller
 			Type type = Superview.Superview?.GetType();
 
@@ -87,19 +87,34 @@ namespace MBAutoComplete
 			{
 				UITableViewCell cell = (UIKit.UITableViewCell)Superview.Superview;
 				cell.ClipsToBounds = false;
+				AutoCompleteTableView.BackgroundColor = UIColor.Black;
 
-				var tableViewController = ViewToAddTo as UITableViewController;
-				AutoCompleteTableView.Layer.ZPosition = 1000;
-				tableViewController.TableView.Layer.ZPosition = 999;
+				//var tableViewController = ViewToAddTo as UITableViewController;
+				originalFrame = cell.Frame;
+
+				Superview.AddSubview(AutoCompleteTableView);
+				//Superview.Remov
+				//add constraints
+				Superview.AddConstraints(
+					AutoCompleteTableView.WithSameCenterY(this).Plus((150 / 2) + 10 + cell.Frame.Height),
+					AutoCompleteTableView.WithSameWidth(this),
+					AutoCompleteTableView.WithSameLeft(this),
+					AutoCompleteTableView.Height().EqualTo(150)
+				);
+
+			}
+			else {
+				Superview.InsertSubviewAbove(AutoCompleteTableView, ViewToAddTo.View);
+
+				//add constraints
+				Superview.AddConstraints(
+					AutoCompleteTableView.AtTopOf(this, this.Frame.Height - 5),
+					AutoCompleteTableView.WithSameWidth(this),
+					AutoCompleteTableView.WithSameLeft(this),
+					AutoCompleteTableView.Height().EqualTo(150)
+				);
 			}
 
-			//add constraints
-			Superview.AddConstraints(
-				AutoCompleteTableView.AtTopOf(this, this.Frame.Height - 5),
-				AutoCompleteTableView.WithSameWidth(this),
-				AutoCompleteTableView.WithSameLeft(this),
-				AutoCompleteTableView.Height().EqualTo(150)
-			);
 
 
 			DataSource.AutoCompleteTextField = this; //ugly hack?
@@ -109,7 +124,6 @@ namespace MBAutoComplete
 			{
 				if (this.Text.Length > 2)
 				{
-
 					await showAutoCompleteView();
 				}
 				else
@@ -127,11 +141,21 @@ namespace MBAutoComplete
 			var parentTable = ViewToAddTo as UITableViewController;
 			if (parentTable != null) //if there is a parenttable
 			{
-				//parentTable.TableView.UserInteractionEnabled = false;
-				//AutoCompleteTableView.UserInteractionEnabled = true;
-				//this.UserInteractionEnabled = true;
-			}
+				parentTable.TableView.Bounces = false;
+				parentTable.TableView.AllowsSelection = false;
 
+				//parentTable.View.Superview.InsertSubviewAbove(Superview.Superview, parentTable.TableView);
+				parentTable.View.Add(AutoCompleteTableView);
+			//	parentTable.View.Superview.BringSubviewToFront(Superview.Superview);
+			//	parentTable.View.Inse
+
+			//	this.BringSubviewToFront(AutoCompleteTableView);
+
+
+		//		parentTable.View.Ins
+		//		parentTable.View.InsertSubviewAbove(AutoCompleteTableView, Superview);
+		//		Superview.InsertSubviewAbove(AutoCompleteTableView,parentTable.TableView);
+			}
 			await UpdateTableViewData();
 		}
 
@@ -142,7 +166,11 @@ namespace MBAutoComplete
 			var parentTable = ViewToAddTo as UITableViewController;
 			if (parentTable != null) //if there is a parenttable
 			{
+				parentTable.TableView.Bounces = true;
+				//parentTable.TableView.ScrollEnabled = true;
+				parentTable.TableView.AllowsSelection = true;
 				//parentTable.TableView.UserInteractionEnabled = true;
+
 			}
 		}
 
