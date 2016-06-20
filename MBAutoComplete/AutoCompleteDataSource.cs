@@ -14,8 +14,8 @@ namespace MBAutoComplete
 {
 	public abstract class AutoCompleteDataSource : UITableViewSource
 	{
-		private List<string> _suggestions = new List<string>();
-		public List<string> Suggestions
+		private IList<string> _suggestions = new List<string>();
+		public IList<string> Suggestions
 		{
 			get
 			{

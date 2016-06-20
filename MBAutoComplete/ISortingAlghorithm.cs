@@ -5,7 +5,7 @@ namespace MBAutoComplete
 {
 	public interface ISortingAlghorithm
 	{
-		List<string> DoSort(List<string> inputStrings);
+		IList<string> DoSort(string userInput, IList<string> inputStrings);
 	}
 }
 

@@ -49,22 +49,18 @@ namespace MBAutoComplete
 			set;
 		} = 150;
 
-
+		//store parent as uiviewcontroller or as uitableviewcontroller
 		private UIViewController _parentViewController;
-
+		private UITableViewController _parentTableViewController;
 
 		//UITableViewcontroller settings
 		private bool _parentIsUITableViewController = false;
-		private UITableViewController _parentTableViewController;
 		private bool _parentTableViewBounces = false;
 		private bool _parentTableViewAllowsSelection = false;
 
-		public MBAutoCompleteTextField(IntPtr ptr) : base(ptr)
-		{
-			
-		}
+		public MBAutoCompleteTextField(IntPtr ptr) : base(ptr){}
 
-		public void Setup(UIViewController view, List<string> suggestions)
+		public void Setup(UIViewController view, IList<string> suggestions)
 		{
 			_parentViewController = view;
 			DateFetcher  = new DefaultDataFetcher(suggestions);
@@ -87,9 +83,10 @@ namespace MBAutoComplete
 			AutoCompleteTableView.AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight; //for resizing (switching from table to portait for example)
 			AutoCompleteTableView.Bounces = false;
 			AutoCompleteTableView.BackgroundColor = UIColor.Clear;
-			AutoCompleteTableView.Hidden = true;
 			AutoCompleteTableView.TranslatesAutoresizingMaskIntoConstraints = false;
 			AutoCompleteTableView.Source = this.DataSource;
+			AutoCompleteTableView.TableFooterView = new UIView();
+			AutoCompleteTableView.Hidden = true;
 
 			//Some textfield settings
 			this.TranslatesAutoresizingMaskIntoConstraints = false;
@@ -110,7 +107,6 @@ namespace MBAutoComplete
 				// Disable clip to bounds to present the suggestions tableview properly
 				UITableViewCell cell = Superview.Superview as UIKit.UITableViewCell;
 				cell.ClipsToBounds = false;
-				AutoCompleteTableView.BackgroundColor = UIColor.Black;
 
 				//Add the view to the contentview of the cell
 				Superview.AddSubview(AutoCompleteTableView);
@@ -125,6 +121,8 @@ namespace MBAutoComplete
 					AutoCompleteTableView.WithSameLeft(this),
 					AutoCompleteTableView.Height().EqualTo(AutocompleteTableViewHeight)
 				);
+
+
 			}
 			else
 			{
@@ -156,12 +154,12 @@ namespace MBAutoComplete
 		{
 			AutoCompleteTableView.Hidden = false;
 
-			if (_parentIsUITableViewController) //if there is a parenttable
+			if (_parentIsUITableViewController) //if is in uitableviewcontroller
 			{
 				_parentTableViewController.TableView.Bounces = false;
 				_parentTableViewController.TableView.AllowsSelection = false;
 
-				_parentTableViewController.View.Add(AutoCompleteTableView);//todo fix so that is not added multiple times
+				_parentTableViewController.View.Add(AutoCompleteTableView);
 			}
 			await UpdateTableViewData();
 		}
@@ -169,21 +167,20 @@ namespace MBAutoComplete
 		private void hideAutoCompleteView()
 		{
 			AutoCompleteTableView.Hidden = true;
-
-			if (_parentIsUITableViewController) //if there is a parenttable
+		
+			if (_parentIsUITableViewController) //if is in uitableviewcontroller
 			{
-				_parentTableViewController.TableView.Bounces = true;
-				_parentTableViewController.TableView.AllowsSelection = true;
+				_parentTableViewController.TableView.Bounces = _parentTableViewBounces;
+				_parentTableViewController.TableView.AllowsSelection = _parentTableViewAllowsSelection;
 			}
 		}
 
 		public async Task UpdateTableViewData(){
 
 			await DateFetcher.PerformFetch(
-				delegate (List<string> unsortedData)
+				delegate (IList<string> unsortedData)
 			{
-				var sorted = this.SortingAlghorithm.DoSort(unsortedData);
-
+				var sorted = this.SortingAlghorithm.DoSort(this.Text,unsortedData);
 				this.DataSource.Suggestions = sorted;
 
 				AutoCompleteTableView.ReloadData();

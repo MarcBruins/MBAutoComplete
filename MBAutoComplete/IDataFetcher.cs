@@ -6,7 +6,7 @@ namespace MBAutoComplete
 {
 	public interface IDataFetcher
 	{
-		Task PerformFetch(Action<List<string>> completionHandler);
+		Task PerformFetch(Action<IList<string>> completionHandler);
 	}
 }
 

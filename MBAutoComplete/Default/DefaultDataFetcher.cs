@@ -6,14 +6,14 @@ namespace MBAutoComplete
 {
 	public class DefaultDataFetcher : IDataFetcher
 	{
-		private List<string> _unsortedData; 
+		private IList<string> _unsortedData; 
 
-		public DefaultDataFetcher(List<string> unsortedData)
+		public DefaultDataFetcher(IList<string> unsortedData)
 		{
 			_unsortedData = unsortedData;
 		}
 
-		public async Task PerformFetch(Action<List<string>> completionHandler)
+		public async Task PerformFetch(Action<IList<string>> completionHandler)
 		{
 			completionHandler(_unsortedData);
 		}

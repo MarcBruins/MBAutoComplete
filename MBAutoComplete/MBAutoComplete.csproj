@@ -53,6 +53,7 @@
     <Compile Include="Default\DefaultDataFetcher.cs" />
     <Compile Include="Default\DefaultDataSource.cs" />
     <Compile Include="Default\DefaultSortingAlgorithm.cs" />
+    <Compile Include="Default\NoSortingAlghorithm.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
