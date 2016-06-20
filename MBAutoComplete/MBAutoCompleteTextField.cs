@@ -37,7 +37,6 @@ namespace MBAutoComplete
 			set;
 		}
 
-
 		private UIViewController ViewToAddTo;
 
 		public MBAutoCompleteTextField(IntPtr ptr) : base(ptr)
@@ -79,15 +78,19 @@ namespace MBAutoComplete
 			this.ClearButtonMode = UITextFieldViewMode.WhileEditing;
 
 			Superview.InsertSubviewAbove(AutoCompleteTableView, ViewToAddTo.View);
-
-			// Check if the superview is a uitableviewcell
-			Type type = Superview.Superview.GetType();
+		
+			// Check if the superview is a uitableviewcell, by doing this we know that the parent is a uitableviewcontroller
+			Type type = Superview.Superview?.GetType();
 
 			// Disable clip to bounds to present the suggestions tableview properly
-			if (type.ToString() == "UIKit.UITableViewCell")
+			if (type != null && type == typeof(UITableViewCell))
 			{
 				UITableViewCell cell = (UIKit.UITableViewCell)Superview.Superview;
 				cell.ClipsToBounds = false;
+
+				var tableViewController = ViewToAddTo as UITableViewController;
+				AutoCompleteTableView.Layer.ZPosition = 1000;
+				tableViewController.TableView.Layer.ZPosition = 999;
 			}
 
 			//add constraints
@@ -98,21 +101,49 @@ namespace MBAutoComplete
 				AutoCompleteTableView.Height().EqualTo(150)
 			);
 
+
+			DataSource.AutoCompleteTextField = this; //ugly hack?
+										
 			//listen to edit events
 			this.AllEditingEvents += async (sender,eventargs) =>
 			{
 				if (this.Text.Length > 2)
 				{
-					DataSource.AutoCompleteTextField = this; //ugly hack?
-					await UpdateTableViewData();
-					AutoCompleteTableView.Hidden = false;
+
+					await showAutoCompleteView();
 				}
 				else
 				{
-					AutoCompleteTableView.Hidden = true;
+					hideAutoCompleteView();
 				}
 			};
 
+		}
+
+		private async Task showAutoCompleteView()
+		{
+			AutoCompleteTableView.Hidden = false;
+
+			var parentTable = ViewToAddTo as UITableViewController;
+			if (parentTable != null) //if there is a parenttable
+			{
+				//parentTable.TableView.UserInteractionEnabled = false;
+				//AutoCompleteTableView.UserInteractionEnabled = true;
+				//this.UserInteractionEnabled = true;
+			}
+
+			await UpdateTableViewData();
+		}
+
+		private void hideAutoCompleteView()
+		{
+			AutoCompleteTableView.Hidden = true;
+
+			var parentTable = ViewToAddTo as UITableViewController;
+			if (parentTable != null) //if there is a parenttable
+			{
+				//parentTable.TableView.UserInteractionEnabled = true;
+			}
 		}
 
 		public async Task UpdateTableViewData(){
