@@ -89,11 +89,7 @@ namespace MBAutoComplete
 				cell.ClipsToBounds = false;
 				AutoCompleteTableView.BackgroundColor = UIColor.Black;
 
-				//var tableViewController = ViewToAddTo as UITableViewController;
-				originalFrame = cell.Frame;
-
 				Superview.AddSubview(AutoCompleteTableView);
-				//Superview.Remov
 				//add constraints
 				Superview.AddConstraints(
 					AutoCompleteTableView.WithSameCenterY(this).Plus((150 / 2) + 10 + cell.Frame.Height),
@@ -144,17 +140,7 @@ namespace MBAutoComplete
 				parentTable.TableView.Bounces = false;
 				parentTable.TableView.AllowsSelection = false;
 
-				//parentTable.View.Superview.InsertSubviewAbove(Superview.Superview, parentTable.TableView);
-				parentTable.View.Add(AutoCompleteTableView);
-			//	parentTable.View.Superview.BringSubviewToFront(Superview.Superview);
-			//	parentTable.View.Inse
-
-			//	this.BringSubviewToFront(AutoCompleteTableView);
-
-
-		//		parentTable.View.Ins
-		//		parentTable.View.InsertSubviewAbove(AutoCompleteTableView, Superview);
-		//		Superview.InsertSubviewAbove(AutoCompleteTableView,parentTable.TableView);
+				parentTable.View.Add(AutoCompleteTableView);//todo fix so that is not added multiple times
 			}
 			await UpdateTableViewData();
 		}
@@ -167,10 +153,7 @@ namespace MBAutoComplete
 			if (parentTable != null) //if there is a parenttable
 			{
 				parentTable.TableView.Bounces = true;
-				//parentTable.TableView.ScrollEnabled = true;
 				parentTable.TableView.AllowsSelection = true;
-				//parentTable.TableView.UserInteractionEnabled = true;
-
 			}
 		}
 
@@ -185,7 +168,7 @@ namespace MBAutoComplete
 
 				AutoCompleteTableView.ReloadData();
 			}
-			                              );
+			);
 		}
 
 	}
