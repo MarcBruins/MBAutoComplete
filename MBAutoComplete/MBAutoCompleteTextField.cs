@@ -43,6 +43,12 @@ namespace MBAutoComplete
 			set;
 		} = 2;
 
+		public int AutocompleteTableViewHeight
+		{
+			get;
+			set;
+		} = 150;
+
 		private bool _parentIsUITableViewController = false;
 
 		private UIViewController _parentViewController;
@@ -104,23 +110,23 @@ namespace MBAutoComplete
 
 				//add constraints
 				Superview.AddConstraints(
-					AutoCompleteTableView.WithSameCenterY(this).Plus((150 / 2) + 10 + cell.Frame.Height),
+					AutoCompleteTableView.WithSameCenterY(this).Plus((AutocompleteTableViewHeight / 2) + 10 + cell.Frame.Height),
 					AutoCompleteTableView.WithSameWidth(this),
 					AutoCompleteTableView.WithSameLeft(this),
-					AutoCompleteTableView.Height().EqualTo(150)
+					AutoCompleteTableView.Height().EqualTo(AutocompleteTableViewHeight)
 				);
 
 			}
 			else
 			{
-				Superview.InsertSubviewAbove(AutoCompleteTableView, _parentViewController.View);
+				Superview.InsertSubviewBelow(AutoCompleteTableView, _parentViewController.View);
 
 				//add constraints
 				Superview.AddConstraints(
 					AutoCompleteTableView.AtTopOf(this, this.Frame.Height - 5),
 					AutoCompleteTableView.WithSameWidth(this),
 					AutoCompleteTableView.WithSameLeft(this),
-					AutoCompleteTableView.Height().EqualTo(150)
+					AutoCompleteTableView.Height().EqualTo(AutocompleteTableViewHeight)
 				);
 			}
 
