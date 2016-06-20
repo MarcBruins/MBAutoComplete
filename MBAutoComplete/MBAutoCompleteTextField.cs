@@ -106,11 +106,15 @@ namespace MBAutoComplete
 				cell.ClipsToBounds = false;
 				AutoCompleteTableView.BackgroundColor = UIColor.Black;
 
+				//Add the view to the contentview of the cell
 				Superview.AddSubview(AutoCompleteTableView);
+
+				//Get indexpath to set the constraint to the right cell
+				NSIndexPath indexPath = _parentTableViewController.TableView.IndexPathForCell(cell);
 
 				//add constraints
 				Superview.AddConstraints(
-					AutoCompleteTableView.WithSameCenterY(this).Plus((AutocompleteTableViewHeight / 2) + 10 + cell.Frame.Height),
+					AutoCompleteTableView.WithSameCenterY(this).Plus((AutocompleteTableViewHeight / 2) + 10 + cell.Frame.Height * indexPath.Row),
 					AutoCompleteTableView.WithSameWidth(this),
 					AutoCompleteTableView.WithSameLeft(this),
 					AutoCompleteTableView.Height().EqualTo(AutocompleteTableViewHeight)

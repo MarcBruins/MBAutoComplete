@@ -17,7 +17,14 @@ namespace Sample
 		{
 			base.ViewDidLoad();
 
-			AutoCompleteTextField.Setup(this,new List<string>() { "test", "test2", "nederland", "engeland", "duitsland", "nog een land" });
+				}
+
+		public override void ViewDidAppear(bool animated)
+		{
+			base.ViewDidAppear(animated);
+
+			AutoCompleteTextField.Setup(this, new List<string>() { "test", "test2", "nederland", "engeland", "duitsland", "nog een land" });
+
 		}
 	}
 }
