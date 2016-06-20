@@ -5,7 +5,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBAutoComplete", "MBAutoCom
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{C14743F1-6E71-475A-A849-E855F9A6294A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "Sample\Sample.csproj", "{A4AA3F8D-8DF8-46C8-9ACC-C173C41C8918}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleTableViewController", "Sample\SampleTableViewController.csproj", "{A4AA3F8D-8DF8-46C8-9ACC-C173C41C8918}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleViewController", "Sample\SampleViewController\SampleViewController.csproj", "{7D58E2DB-8D93-44A7-83EA-68BF79459E48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,8 +43,21 @@ Global
 		{A4AA3F8D-8DF8-46C8-9ACC-C173C41C8918}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 		{A4AA3F8D-8DF8-46C8-9ACC-C173C41C8918}.Debug|iPhone.ActiveCfg = Debug|iPhone
 		{A4AA3F8D-8DF8-46C8-9ACC-C173C41C8918}.Debug|iPhone.Build.0 = Debug|iPhone
+		{7D58E2DB-8D93-44A7-83EA-68BF79459E48}.Debug|Any CPU.ActiveCfg = Debug|iPhoneSimulator
+		{7D58E2DB-8D93-44A7-83EA-68BF79459E48}.Debug|Any CPU.Build.0 = Debug|iPhoneSimulator
+		{7D58E2DB-8D93-44A7-83EA-68BF79459E48}.Release|Any CPU.ActiveCfg = Release|iPhone
+		{7D58E2DB-8D93-44A7-83EA-68BF79459E48}.Release|Any CPU.Build.0 = Release|iPhone
+		{7D58E2DB-8D93-44A7-83EA-68BF79459E48}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{7D58E2DB-8D93-44A7-83EA-68BF79459E48}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{7D58E2DB-8D93-44A7-83EA-68BF79459E48}.Release|iPhone.ActiveCfg = Release|iPhone
+		{7D58E2DB-8D93-44A7-83EA-68BF79459E48}.Release|iPhone.Build.0 = Release|iPhone
+		{7D58E2DB-8D93-44A7-83EA-68BF79459E48}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{7D58E2DB-8D93-44A7-83EA-68BF79459E48}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+		{7D58E2DB-8D93-44A7-83EA-68BF79459E48}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{7D58E2DB-8D93-44A7-83EA-68BF79459E48}.Debug|iPhone.Build.0 = Debug|iPhone
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A4AA3F8D-8DF8-46C8-9ACC-C173C41C8918} = {C14743F1-6E71-475A-A849-E855F9A6294A}
+		{7D58E2DB-8D93-44A7-83EA-68BF79459E48} = {C14743F1-6E71-475A-A849-E855F9A6294A}
 	EndGlobalSection
 EndGlobal

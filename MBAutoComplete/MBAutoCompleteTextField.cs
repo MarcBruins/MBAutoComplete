@@ -37,9 +37,16 @@ namespace MBAutoComplete
 			set;
 		}
 
+		public int StartAutoCompleteAfterTicks
+		{
+			get;
+			set;
+		} = 2;
 
-		public CGRect originalFrame { get; private set; }
-		private UIViewController ViewToAddTo;
+		private bool _parentIsUITableViewController = false;
+
+		private UIViewController _parentViewController;
+		private UITableViewController _parentTableViewController;
 
 		public MBAutoCompleteTextField(IntPtr ptr) : base(ptr)
 		{
@@ -48,14 +55,14 @@ namespace MBAutoComplete
 
 		public void Setup(UIViewController view, List<string> suggestions)
 		{
-			ViewToAddTo = view;
+			_parentViewController = view;
 			DateFetcher  = new DefaultDataFetcher(suggestions);
 			initialize();
 		}
 
 		public void Setup(UIViewController view, IDataFetcher fetcher)
 		{
-			ViewToAddTo = view;
+			_parentViewController = view;
 			DateFetcher = fetcher;
 			initialize();
 		}
@@ -82,14 +89,19 @@ namespace MBAutoComplete
 			// Check if the superview is a uitableviewcell, by doing this we know that the parent is a uitableviewcontroller
 			Type type = Superview.Superview?.GetType();
 
-			// Disable clip to bounds to present the suggestions tableview properly
+			//if parent is tableviewcontroller
 			if (type != null && type == typeof(UITableViewCell))
 			{
+				_parentIsUITableViewController = true;
+				_parentTableViewController = _parentViewController as UITableViewController;
+
+				// Disable clip to bounds to present the suggestions tableview properly
 				UITableViewCell cell = (UIKit.UITableViewCell)Superview.Superview;
 				cell.ClipsToBounds = false;
 				AutoCompleteTableView.BackgroundColor = UIColor.Black;
 
 				Superview.AddSubview(AutoCompleteTableView);
+
 				//add constraints
 				Superview.AddConstraints(
 					AutoCompleteTableView.WithSameCenterY(this).Plus((150 / 2) + 10 + cell.Frame.Height),
@@ -99,8 +111,9 @@ namespace MBAutoComplete
 				);
 
 			}
-			else {
-				Superview.InsertSubviewAbove(AutoCompleteTableView, ViewToAddTo.View);
+			else
+			{
+				Superview.InsertSubviewAbove(AutoCompleteTableView, _parentViewController.View);
 
 				//add constraints
 				Superview.AddConstraints(
@@ -111,21 +124,15 @@ namespace MBAutoComplete
 				);
 			}
 
-
-
 			DataSource.AutoCompleteTextField = this; //ugly hack?
 										
 			//listen to edit events
 			this.AllEditingEvents += async (sender,eventargs) =>
 			{
-				if (this.Text.Length > 2)
-				{
+				if (this.Text.Length > StartAutoCompleteAfterTicks)
 					await showAutoCompleteView();
-				}
 				else
-				{
 					hideAutoCompleteView();
-				}
 			};
 
 		}
@@ -134,13 +141,12 @@ namespace MBAutoComplete
 		{
 			AutoCompleteTableView.Hidden = false;
 
-			var parentTable = ViewToAddTo as UITableViewController;
-			if (parentTable != null) //if there is a parenttable
+			if (_parentIsUITableViewController) //if there is a parenttable
 			{
-				parentTable.TableView.Bounces = false;
-				parentTable.TableView.AllowsSelection = false;
+				_parentTableViewController.TableView.Bounces = false;
+				_parentTableViewController.TableView.AllowsSelection = false;
 
-				parentTable.View.Add(AutoCompleteTableView);//todo fix so that is not added multiple times
+				_parentTableViewController.View.Add(AutoCompleteTableView);//todo fix so that is not added multiple times
 			}
 			await UpdateTableViewData();
 		}
@@ -149,11 +155,10 @@ namespace MBAutoComplete
 		{
 			AutoCompleteTableView.Hidden = true;
 
-			var parentTable = ViewToAddTo as UITableViewController;
-			if (parentTable != null) //if there is a parenttable
+			if (_parentIsUITableViewController) //if there is a parenttable
 			{
-				parentTable.TableView.Bounces = true;
-				parentTable.TableView.AllowsSelection = true;
+				_parentTableViewController.TableView.Bounces = true;
+				_parentTableViewController.TableView.AllowsSelection = true;
 			}
 		}
 
