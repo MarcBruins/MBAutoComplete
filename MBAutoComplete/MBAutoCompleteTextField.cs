@@ -49,10 +49,15 @@ namespace MBAutoComplete
 			set;
 		} = 150;
 
-		private bool _parentIsUITableViewController = false;
 
 		private UIViewController _parentViewController;
+
+
+		//UITableViewcontroller settings
+		private bool _parentIsUITableViewController = false;
 		private UITableViewController _parentTableViewController;
+		private bool _parentTableViewBounces = false;
+		private bool _parentTableViewAllowsSelection = false;
 
 		public MBAutoCompleteTextField(IntPtr ptr) : base(ptr)
 		{
@@ -92,17 +97,18 @@ namespace MBAutoComplete
 			this.AutocorrectionType = UITextAutocorrectionType.No;
 			this.ClearButtonMode = UITextFieldViewMode.WhileEditing;
 
-			// Check if the superview is a uitableviewcell, by doing this we know that the parent is a uitableviewcontroller
-			Type type = Superview.Superview?.GetType();
+			var isTableViewController = _parentViewController as UITableViewController;
 
 			//if parent is tableviewcontroller
-			if (type != null && type == typeof(UITableViewCell))
+			if (isTableViewController != null)
 			{
 				_parentIsUITableViewController = true;
-				_parentTableViewController = _parentViewController as UITableViewController;
+				_parentTableViewController = isTableViewController;
+				_parentTableViewBounces = _parentTableViewController.TableView.Bounces;
+				_parentTableViewAllowsSelection = _parentTableViewController.TableView.AllowsSelection;
 
 				// Disable clip to bounds to present the suggestions tableview properly
-				UITableViewCell cell = (UIKit.UITableViewCell)Superview.Superview;
+				UITableViewCell cell = Superview.Superview as UIKit.UITableViewCell;
 				cell.ClipsToBounds = false;
 				AutoCompleteTableView.BackgroundColor = UIColor.Black;
 
@@ -119,7 +125,6 @@ namespace MBAutoComplete
 					AutoCompleteTableView.WithSameLeft(this),
 					AutoCompleteTableView.Height().EqualTo(AutocompleteTableViewHeight)
 				);
-
 			}
 			else
 			{
