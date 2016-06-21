@@ -13,7 +13,7 @@ namespace MBAutoComplete
 			_unsortedData = unsortedData;
 		}
 
-		public async Task PerformFetch(Action<IList<string>> completionHandler)
+		public async Task PerformFetch(MBAutoCompleteTextField textfield, Action<IList<string>> completionHandler)
 		{
 			completionHandler(_unsortedData);
 		}

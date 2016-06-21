@@ -177,7 +177,7 @@ namespace MBAutoComplete
 
 		public async Task UpdateTableViewData(){
 
-			await DateFetcher.PerformFetch(
+			await DateFetcher.PerformFetch(this,
 				delegate (IList<string> unsortedData)
 			{
 				var sorted = this.SortingAlghorithm.DoSort(this.Text,unsortedData);
