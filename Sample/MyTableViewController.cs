@@ -276,7 +276,6 @@ namespace Sample
 			base.ViewDidAppear(animated);
 
 			AutoCompleteTextField.Setup(this, countries);
-
 		}
 	}
 

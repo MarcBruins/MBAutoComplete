@@ -19,7 +19,7 @@ namespace MBAutoComplete
 			if (cell == null)
 				cell = new UITableViewCell(UITableViewCellStyle.Default, CellIdentifier);
 
-			cell.BackgroundColor = UIColor.LightGray;
+			cell.BackgroundColor = UIColor.GroupTableViewBackgroundColor;
 			cell.TextLabel.Text = item;
 
 			return cell;

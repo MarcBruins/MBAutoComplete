@@ -104,12 +104,11 @@ namespace MBAutoComplete
 				_parentTableViewBounces = _parentTableViewController.TableView.Bounces;
 				_parentTableViewAllowsSelection = _parentTableViewController.TableView.AllowsSelection;
 
-				// Disable clip to bounds to present the suggestions tableview properly
-				UITableViewCell cell = Superview.Superview as UIKit.UITableViewCell;
-				cell.ClipsToBounds = false;
 
 				//Add the view to the contentview of the cell
 				Superview.AddSubview(AutoCompleteTableView);
+
+				UITableViewCell cell = Superview.Superview as UIKit.UITableViewCell;
 
 				//Get indexpath to set the constraint to the right cell
 				NSIndexPath indexPath = _parentTableViewController.TableView.IndexPathForCell(cell);
@@ -158,6 +157,7 @@ namespace MBAutoComplete
 			{
 				_parentTableViewController.TableView.Bounces = false;
 				_parentTableViewController.TableView.AllowsSelection = false;
+
 
 				_parentTableViewController.View.Add(AutoCompleteTableView);
 			}
