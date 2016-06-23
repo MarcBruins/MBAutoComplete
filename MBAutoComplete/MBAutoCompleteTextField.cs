@@ -113,6 +113,11 @@ namespace MBAutoComplete
 				//Get indexpath to set the constraint to the right cell
 				NSIndexPath indexPath = _parentTableViewController.TableView.IndexPathForCell(cell);
 
+				if (indexPath == null)
+				{
+					Console.WriteLine("Should be initaliazed in the viewdidappear and not in the viewdidload");
+					return;
+				}
 				//add constraints
 				Superview.AddConstraints(
 					AutoCompleteTableView.WithSameCenterY(this).Plus((AutocompleteTableViewHeight / 2) + 10 + cell.Frame.Height * indexPath.Row),
