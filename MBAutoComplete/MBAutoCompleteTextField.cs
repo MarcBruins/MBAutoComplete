@@ -74,6 +74,18 @@ namespace MBAutoComplete
 			initialize();
 		}
 
+		public void Setup(UIViewController view, IList<string> suggestions, UITableViewController tableViewController)
+		{
+			_parentTableViewController = tableViewController;
+			Setup(view, suggestions);
+		}
+
+		public void Setup(UIViewController view, IDataFetcher fetcher, UITableViewController tableViewController)
+		{
+			_parentTableViewController = tableViewController;
+			Setup(view, fetcher);
+		}
+
 		private void initialize()
 		{
 			//Make new tableview and do some settings
@@ -94,13 +106,14 @@ namespace MBAutoComplete
 			this.AutocorrectionType = UITextAutocorrectionType.No;
 			this.ClearButtonMode = UITextFieldViewMode.WhileEditing;
 
-			var isTableViewController = _parentViewController as UITableViewController;
+			var isTableViewController = _parentTableViewController ?? (_parentViewController as UITableViewController);
 
 			//if parent is tableviewcontroller
 			if (isTableViewController != null)
 			{
 				_parentIsUITableViewController = true;
-				_parentTableViewController = isTableViewController;
+				if (_parentTableViewController == null)
+					_parentTableViewController = isTableViewController;
 				_parentTableViewBounces = _parentTableViewController.TableView.Bounces;
 				_parentTableViewAllowsSelection = _parentTableViewController.TableView.AllowsSelection;
 
