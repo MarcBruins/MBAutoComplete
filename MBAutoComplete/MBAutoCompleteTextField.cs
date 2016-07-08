@@ -19,10 +19,11 @@ namespace MBAutoComplete
 			set;
 		} = new DefaultSortingAlgorithm();
 
+		private AutoCompleteDataSource _dataSource;
 		public AutoCompleteDataSource DataSource
 		{
-			get;
-			set;
+			get { return _dataSource; }
+			set { _dataSource = value; _dataSource.AutoCompleteTextField = this; }
 		} = new DefaultDataSource();
 
 		public UITableView AutoCompleteTableView
@@ -154,7 +155,6 @@ namespace MBAutoComplete
 				);
 			}
 
-			DataSource.AutoCompleteTextField = this; //ugly hack?
 										
 			//listen to edit events
 			this.AllEditingEvents += async (sender,eventargs) =>
