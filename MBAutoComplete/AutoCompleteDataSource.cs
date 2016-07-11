@@ -14,6 +14,8 @@ namespace MBAutoComplete
 {
 	public abstract class AutoCompleteDataSource : UITableViewSource
 	{
+		public event EventHandler RowSelectedEvent;
+
 		private IList<string> _suggestions = new List<string>();
 		public IList<string> Suggestions
 		{
@@ -44,6 +46,8 @@ namespace MBAutoComplete
 		{
 			AutoCompleteTextField.Text = Suggestions[indexPath.Row];
 			AutoCompleteTextField.AutoCompleteTableView.Hidden = true;
+
+			RowSelectedEvent?.Invoke(this, EventArgs.Empty);
 		}
 	}
 }
