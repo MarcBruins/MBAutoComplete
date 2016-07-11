@@ -24,7 +24,7 @@ namespace MBAutoComplete
 		{
 			get { return _dataSource; }
 			set { _dataSource = value; _dataSource.AutoCompleteTextField = this; }
-		} = new DefaultDataSource();
+		}
 
 		public UITableView AutoCompleteTableView
 		{
@@ -124,7 +124,6 @@ namespace MBAutoComplete
 				_parentTableViewBounces = _parentTableViewController.TableView.Bounces;
 				_parentTableViewAllowsSelection = _parentTableViewController.TableView.AllowsSelection;
 
-
 				//Add the view to the contentview of the cell
 				Superview.AddSubview(AutoCompleteTableView);
 
@@ -135,7 +134,7 @@ namespace MBAutoComplete
 
 				if (indexPath == null)
 				{
-					Console.WriteLine("Should be initaliazed in the viewdidappear and not in the viewdidload");
+					Console.WriteLine("Should be initialized in the ViewDidAppear and not in the ViewDidLoad!");
 					return;
 				}
 				//add constraints
@@ -145,8 +144,6 @@ namespace MBAutoComplete
 					AutoCompleteTableView.WithSameLeft(this),
 					AutoCompleteTableView.Height().EqualTo(AutocompleteTableViewHeight)
 				);
-
-
 			}
 			else
 			{
@@ -175,7 +172,6 @@ namespace MBAutoComplete
 			{
 				hideAutoCompleteView();
 			};
-
 		}
 
 		private void showAutoCompleteView()
