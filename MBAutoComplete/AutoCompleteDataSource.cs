@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Threading.Tasks;
 using Cirrious.FluentLayouts.Touch;
 using CoreAnimation;
@@ -16,8 +17,8 @@ namespace MBAutoComplete
 	{
 		public event EventHandler RowSelectedEvent;
 
-		private IList<string> _suggestions = new List<string>();
-		public IList<string> Suggestions
+		private ICollection<string> _suggestions = new List<string>();
+		public ICollection<string> Suggestions
 		{
 			get
 			{
@@ -44,7 +45,7 @@ namespace MBAutoComplete
 
 		public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
 		{
-			AutoCompleteTextField.Text = Suggestions[indexPath.Row];
+			AutoCompleteTextField.Text = Suggestions.ElementAt(indexPath.Row);
 			AutoCompleteTextField.AutoCompleteTableView.Hidden = true;
 
 			RowSelectedEvent?.Invoke(this, EventArgs.Empty);

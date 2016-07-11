@@ -23,7 +23,12 @@ namespace MBAutoComplete
 		public AutoCompleteDataSource DataSource
 		{
 			get { return _dataSource; }
-			set { _dataSource = value; _dataSource.AutoCompleteTextField = this; }
+			set {
+				_dataSource = value; 
+				_dataSource.AutoCompleteTextField = this;
+				if(AutoCompleteTableView != null)
+					AutoCompleteTableView.Source = this.DataSource;
+			}
 		}
 
 		public UITableView AutoCompleteTableView
@@ -32,7 +37,7 @@ namespace MBAutoComplete
 			private set;
 		}
 
-		public IDataFetcher DateFetcher
+		public IDataFetcher DataFetcher
 		{
 			get;
 			set;
@@ -64,14 +69,16 @@ namespace MBAutoComplete
 		public void Setup(UIViewController view, IList<string> suggestions)
 		{
 			_parentViewController = view;
-			DateFetcher  = new DefaultDataFetcher(suggestions);
+			DataFetcher  = new DefaultDataFetcher(suggestions);
+			DataSource = new DefaultDataSource();
 			initialize();
 		}
 
 		public void Setup(UIViewController view, IDataFetcher fetcher)
 		{
 			_parentViewController = view;
-			DateFetcher = fetcher;
+			DataFetcher = fetcher;
+			DataSource = new DefaultDataSource();
 			initialize();
 		}
 
@@ -100,12 +107,6 @@ namespace MBAutoComplete
 			AutoCompleteTableView.Source = this.DataSource;
 			AutoCompleteTableView.TableFooterView = new UIView();
 			AutoCompleteTableView.Hidden = true;
-
-			//Box shadow
-			AutoCompleteTableView.Layer.ShadowOffset = new CGSize(1, 0);
-			AutoCompleteTableView.Layer.ShadowColor = UIColor.Black.CGColor;
-			AutoCompleteTableView.Layer.ShadowRadius = 5;
-			AutoCompleteTableView.Layer.ShadowOpacity = 0.25f;
 
 			//Some textfield settings
 			this.TranslatesAutoresizingMaskIntoConstraints = false;
@@ -176,6 +177,7 @@ namespace MBAutoComplete
 
 		private void showAutoCompleteView()
 		{
+			AutoCompleteTableView.SetContentOffset(CGPoint.Empty, false);
 			AutoCompleteTableView.Hidden = false;
 
 			if (_parentIsUITableViewController) //if is in uitableviewcontroller
@@ -200,9 +202,7 @@ namespace MBAutoComplete
 
 		public async Task UpdateTableViewData()
 		{
-
-			await DateFetcher.PerformFetch(this,
-				delegate (IList<string> unsortedData)
+			await DataFetcher.PerformFetch(this, delegate (ICollection<string> unsortedData)
 			{
 				var sorted = this.SortingAlghorithm.DoSort(this.Text, unsortedData);
 				this.DataSource.Suggestions = sorted;

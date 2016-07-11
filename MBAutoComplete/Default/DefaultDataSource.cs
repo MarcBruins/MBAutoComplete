@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Foundation;
 using UIKit;
 
@@ -13,7 +14,7 @@ namespace MBAutoComplete
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
 			UITableViewCell cell = tableView.DequeueReusableCell(CellIdentifier);
-			string item = Suggestions[indexPath.Row];
+			string item = Suggestions.ElementAt(indexPath.Row);
 
 			//---- if there are no cells to reuse, create a new one
 			if (cell == null)

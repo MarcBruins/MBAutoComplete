@@ -9,7 +9,7 @@ namespace MBAutoComplete
 
 		public DefaultSortingAlgorithm() { }
 
-		public IList<string> DoSort(string userInput, IList<string> inputStrings)
+		public ICollection<string> DoSort(string userInput, ICollection<string> inputStrings)
 		{
 			var correctedStrings = new List<string>();
 			foreach (string input in inputStrings)
