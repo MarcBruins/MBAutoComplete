@@ -101,6 +101,12 @@ namespace MBAutoComplete
 			AutoCompleteTableView.TableFooterView = new UIView();
 			AutoCompleteTableView.Hidden = true;
 
+			//Box shadow
+			AutoCompleteTableView.Layer.ShadowOffset = new CGSize(1, 0);
+			AutoCompleteTableView.Layer.ShadowColor = UIColor.Black.CGColor;
+			AutoCompleteTableView.Layer.ShadowRadius = 5;
+			AutoCompleteTableView.Layer.ShadowOpacity = 0.25f;
+
 			//Some textfield settings
 			this.TranslatesAutoresizingMaskIntoConstraints = false;
 			this.Delegate = this;
@@ -155,19 +161,24 @@ namespace MBAutoComplete
 				);
 			}
 
-										
 			//listen to edit events
-			this.AllEditingEvents += async (sender,eventargs) =>
+			this.EditingChanged += async (sender, eventargs) =>
 			{
 				if (this.Text.Length > StartAutoCompleteAfterTicks)
-					await showAutoCompleteView();
-				else
-					hideAutoCompleteView();
+				{
+					showAutoCompleteView();
+					await UpdateTableViewData();
+				}
+			};
+
+			this.EditingDidEnd += (sender, eventargs) =>
+			{
+				hideAutoCompleteView();
 			};
 
 		}
 
-		private async Task showAutoCompleteView()
+		private void showAutoCompleteView()
 		{
 			AutoCompleteTableView.Hidden = false;
 
@@ -176,16 +187,14 @@ namespace MBAutoComplete
 				_parentTableViewController.TableView.Bounces = false;
 				_parentTableViewController.TableView.AllowsSelection = false;
 
-
 				_parentTableViewController.View.Add(AutoCompleteTableView);
 			}
-			await UpdateTableViewData();
 		}
 
 		private void hideAutoCompleteView()
 		{
 			AutoCompleteTableView.Hidden = true;
-		
+
 			if (_parentIsUITableViewController) //if is in uitableviewcontroller
 			{
 				_parentTableViewController.TableView.Bounces = _parentTableViewBounces;
@@ -193,19 +202,18 @@ namespace MBAutoComplete
 			}
 		}
 
-		public async Task UpdateTableViewData(){
+		public async Task UpdateTableViewData()
+		{
 
 			await DateFetcher.PerformFetch(this,
 				delegate (IList<string> unsortedData)
 			{
-				var sorted = this.SortingAlghorithm.DoSort(this.Text,unsortedData);
+				var sorted = this.SortingAlghorithm.DoSort(this.Text, unsortedData);
 				this.DataSource.Suggestions = sorted;
 
 				AutoCompleteTableView.ReloadData();
 			}
 			);
 		}
-
 	}
 }
-
