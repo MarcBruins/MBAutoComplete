@@ -17,7 +17,7 @@ namespace MBAutoComplete
 		{
 			get;
 			set;
-		} = new DefaultSortingAlgorithm();
+		} = new NoSortingAlghorithm();
 
 		private AutoCompleteDataSource _dataSource;
 		public AutoCompleteDataSource DataSource

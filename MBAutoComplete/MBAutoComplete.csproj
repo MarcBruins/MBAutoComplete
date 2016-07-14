@@ -43,17 +43,18 @@
   <ItemGroup>
     <Folder Include="Resources\" />
     <Folder Include="Default\" />
+    <Folder Include="Interfaces\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MBAutoCompleteTextField.cs" />
-    <Compile Include="ISortingAlghorithm.cs" />
-    <Compile Include="AutoCompleteDataSource.cs" />
-    <Compile Include="IDataFetcher.cs" />
     <Compile Include="Default\DefaultDataFetcher.cs" />
     <Compile Include="Default\DefaultDataSource.cs" />
-    <Compile Include="Default\DefaultSortingAlgorithm.cs" />
+    <Compile Include="Default\SimpleSortingAlgorithm.cs" />
     <Compile Include="Default\NoSortingAlghorithm.cs" />
+    <Compile Include="Interfaces\IDataFetcher.cs" />
+    <Compile Include="Interfaces\ISortingAlghorithm.cs" />
+    <Compile Include="Interfaces\AutoCompleteDataSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

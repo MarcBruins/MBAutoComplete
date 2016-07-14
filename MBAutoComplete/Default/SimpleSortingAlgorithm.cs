@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace MBAutoComplete
 {
-	public class DefaultSortingAlgorithm : ISortingAlghorithm
+	public class SimpleSortingAlgorithm : ISortingAlghorithm
 	{
 		private int _maxChanges = 3;
 
-		public DefaultSortingAlgorithm() { }
+		public SimpleSortingAlgorithm() { }
 
 		public ICollection<string> DoSort(string userInput, ICollection<string> inputStrings)
 		{

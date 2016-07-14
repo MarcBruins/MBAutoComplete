@@ -27,8 +27,11 @@ namespace MBAutoComplete
 			set
 			{
 				_suggestions = value;
+				NewSuggestions(_suggestions);
 			}
 		}
+
+		public abstract void NewSuggestions(ICollection<string> suggestions);
 
 		public MBAutoCompleteTextField AutoCompleteTextField
 		{

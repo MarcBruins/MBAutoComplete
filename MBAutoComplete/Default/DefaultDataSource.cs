@@ -9,14 +9,18 @@ namespace MBAutoComplete
 	public class DefaultDataSource : AutoCompleteDataSource
 	{
 		private string CellIdentifier = "DefaultIdentifier";
+		private ICollection<string> suggestions;
 
+		public override void NewSuggestions(ICollection<string> suggestions)
+		{
+			this.suggestions = suggestions;
+		}
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
 			UITableViewCell cell = tableView.DequeueReusableCell(CellIdentifier);
-			string item = Suggestions.ElementAt(indexPath.Row);
+			string item = suggestions.ElementAt(indexPath.Row);
 
-			//---- if there are no cells to reuse, create a new one
 			if (cell == null)
 				cell = new UITableViewCell(UITableViewCellStyle.Default, CellIdentifier);
 
@@ -25,6 +29,8 @@ namespace MBAutoComplete
 
 			return cell;
 		}
+
+
 
 		public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
 		{
