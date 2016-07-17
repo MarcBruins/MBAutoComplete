@@ -1,7 +1,7 @@
 # MBAutoComplete
 <strong>Completely customizable Xamarin iOS autocomplete field</strong>
 
-![Example](MarcBruins.github.com/MBAutoComplete/images/example.png)
+![Example](https://github.com/MarcBruins/MBAutoComplete/blob/master/images/example_image.png)
 
 
 Note that library is not an out of the box solution that looks perfectly on everything. It has some default behaviour which you can use to setup an autocomplete field really quick if that is what you want. But the nice thing about this library is that it is completely customizable.
