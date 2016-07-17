@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Threading.Tasks;
 using Cirrious.FluentLayouts.Touch;
-using CoreAnimation;
 using CoreGraphics;
 using Foundation;
 using UIKit;
@@ -19,15 +17,15 @@ namespace MBAutoComplete
 			set;
 		} = new NoSortingAlghorithm();
 
-		private AutoCompleteDataSource _dataSource;
-		public AutoCompleteDataSource DataSource
+		private MBAutoCompleteViewSource _autoCompleteViewSource;
+		public MBAutoCompleteViewSource AutoCompleteViewSource
 		{
-			get { return _dataSource; }
+			get { return _autoCompleteViewSource; }
 			set {
-				_dataSource = value; 
-				_dataSource.AutoCompleteTextField = this;
+				_autoCompleteViewSource = value; 
+				_autoCompleteViewSource.AutoCompleteTextField = this;
 				if(AutoCompleteTableView != null)
-					AutoCompleteTableView.Source = this.DataSource;
+					AutoCompleteTableView.Source = this.AutoCompleteViewSource;
 			}
 		}
 
@@ -70,7 +68,7 @@ namespace MBAutoComplete
 		{
 			_parentViewController = view;
 			DataFetcher  = new DefaultDataFetcher(suggestions);
-			DataSource = new DefaultDataSource();
+			AutoCompleteViewSource = new DefaultDataSource();
 			initialize();
 		}
 
@@ -78,7 +76,7 @@ namespace MBAutoComplete
 		{
 			_parentViewController = view;
 			DataFetcher = fetcher;
-			DataSource = new DefaultDataSource();
+			AutoCompleteViewSource = new DefaultDataSource();
 			initialize();
 		}
 
@@ -104,7 +102,7 @@ namespace MBAutoComplete
 			AutoCompleteTableView.Bounces = false;
 			AutoCompleteTableView.BackgroundColor = UIColor.Clear;
 			AutoCompleteTableView.TranslatesAutoresizingMaskIntoConstraints = false;
-			AutoCompleteTableView.Source = this.DataSource;
+			AutoCompleteTableView.Source = this.AutoCompleteViewSource;
 			AutoCompleteTableView.TableFooterView = new UIView();
 			AutoCompleteTableView.Hidden = true;
 
@@ -205,7 +203,7 @@ namespace MBAutoComplete
 			await DataFetcher.PerformFetch(this, delegate (ICollection<string> unsortedData)
 			{
 				var sorted = this.SortingAlghorithm.DoSort(this.Text, unsortedData);
-				this.DataSource.Suggestions = sorted;
+				this.AutoCompleteViewSource.Suggestions = sorted;
 
 				AutoCompleteTableView.ReloadData();
 			}

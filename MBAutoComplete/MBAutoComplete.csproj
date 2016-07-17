@@ -54,7 +54,7 @@
     <Compile Include="Default\NoSortingAlghorithm.cs" />
     <Compile Include="Interfaces\IDataFetcher.cs" />
     <Compile Include="Interfaces\ISortingAlghorithm.cs" />
-    <Compile Include="Interfaces\AutoCompleteDataSource.cs" />
+    <Compile Include="Interfaces\MBAutoCompleteViewSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

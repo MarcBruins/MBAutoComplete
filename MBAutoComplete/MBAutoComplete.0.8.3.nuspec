@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>MBAutoComplete</id>
-        <version>0.8.2</version>
+        <version>0.8.3</version>
         <title>MBAutoComplete</title>
         <authors>Marc Bruins</authors>
         <projectUrl>https://github.com/MarcBruins/MBAutoComplete</projectUrl>

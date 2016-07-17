@@ -92,10 +92,10 @@
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
     <Reference Include="Cirrious.FluentLayouts.Touch">
-      <HintPath>..\packages\Cirrious.FluentLayout.2.5.0\lib\Xamarin.iOS10\Cirrious.FluentLayouts.Touch.dll</HintPath>
+      <HintPath>..\..\packages\Cirrious.FluentLayout.2.5.0\lib\Xamarin.iOS10\Cirrious.FluentLayouts.Touch.dll</HintPath>
     </Reference>
     <Reference Include="MBAutoComplete">
-      <HintPath>..\packages\MBAutoComplete.0.1.1\lib\Xamarin.iOS10\MBAutoComplete.dll</HintPath>
+      <HintPath>..\..\packages\MBAutoComplete.0.8.3\lib\Xamarin.iOS10\MBAutoComplete.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
