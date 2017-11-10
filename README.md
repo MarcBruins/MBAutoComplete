@@ -15,4 +15,4 @@ Note that library is not an out of the box solution that looks perfectly on ever
  	<li>Done!</li>
 </ol>
 
-For more info checkout: <a href="http://www.marcbruins.nl/xamarin-ios-autocomplete/">http://www.marcbruins.nl/xamarin-ios-autocomplete/</a>
+For more info checkout: <a href="http://www.marcbruins.nl/xamarin-ios-autocomplete/">http://www.marcbruins.nl/xamarin-ios-autocomplete</a>
