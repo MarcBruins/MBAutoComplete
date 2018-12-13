@@ -16,7 +16,7 @@ namespace MBAutoComplete
 		public Task PerformFetch(MBAutoCompleteTextField textfield, Action<ICollection<string>> completionHandler)
 		{
 			completionHandler(_unsortedData);
-            return Task.CompletedTask;
+			return Task.CompletedTask;
 		}
 	}
 }

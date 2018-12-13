@@ -64,15 +64,15 @@ namespace MBAutoComplete
 
 		public MBAutoCompleteTextField() {}
 
-        public MBAutoCompleteTextField(IntPtr ptr) : base(ptr){}
+		public MBAutoCompleteTextField(IntPtr ptr) : base(ptr){}
 
-        public MBAutoCompleteTextField(CGRect frame) : base(frame){}
+		public MBAutoCompleteTextField(CGRect frame) : base(frame){}
 
-        public MBAutoCompleteTextField(NSCoder coder) : base(coder){}
+		public MBAutoCompleteTextField(NSCoder coder) : base(coder){}
 
-        public MBAutoCompleteTextField(NSObjectFlag t) : base(t){}
+		public MBAutoCompleteTextField(NSObjectFlag t) : base(t){}
 
-        public void Setup(UIViewController view, IList<string> suggestions)
+		public void Setup(UIViewController view, IList<string> suggestions)
 		{
 			_parentViewController = view;
 			DataFetcher  = new DefaultDataFetcher(suggestions);
