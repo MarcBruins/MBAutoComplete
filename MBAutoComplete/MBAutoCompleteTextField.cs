@@ -62,9 +62,17 @@ namespace MBAutoComplete
 		private bool _parentTableViewBounces = false;
 		private bool _parentTableViewAllowsSelection = false;
 
-		public MBAutoCompleteTextField(IntPtr ptr) : base(ptr){}
+		public MBAutoCompleteTextField() {}
 
-		public void Setup(UIViewController view, IList<string> suggestions)
+        public MBAutoCompleteTextField(IntPtr ptr) : base(ptr){}
+
+        public MBAutoCompleteTextField(CGRect frame) : base(frame){}
+
+        public MBAutoCompleteTextField(NSCoder coder) : base(coder){}
+
+        public MBAutoCompleteTextField(NSObjectFlag t) : base(t){}
+
+        public void Setup(UIViewController view, IList<string> suggestions)
 		{
 			_parentViewController = view;
 			DataFetcher  = new DefaultDataFetcher(suggestions);
